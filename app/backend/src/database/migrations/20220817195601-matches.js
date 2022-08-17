@@ -43,10 +43,11 @@ module.exports = {
         field: 'home_team_goals',
         defaultValue: 0,
       },
-      inprogress: {
+      inProgress: {
         type: Sequelize.BOOLEAN,
         // allowNull: false,
         defaultValue: false,
+        field: 'in_progress',
       }
     });
   },
