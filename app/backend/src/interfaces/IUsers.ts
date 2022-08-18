@@ -1,7 +1,7 @@
-import { IId } from './IId';
+import ILogin from './ILogin';
 
-export interface IUser extends IId {
+export interface IUser extends ILogin {
+  id: number,
   username: string,
   role: string,
-  password: string,
 }
