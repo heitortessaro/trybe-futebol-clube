@@ -1,7 +1,7 @@
-export interface IUser {
-  id: number,
+import { IId } from './IId';
+
+export interface IUser extends IId {
   username: string,
-  email: string,
   role: string,
   password: string,
 }
