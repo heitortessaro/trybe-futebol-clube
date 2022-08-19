@@ -16,6 +16,6 @@ export default class UsersController {
     const { userInfo } = req.body;
     // const { password, ...payload } = user;
     const token: string = JwtService.signToken(userInfo);
-    res.status(StatusCodes.OK).json(token);
+    res.status(StatusCodes.OK).json({ token });
   };
 }
