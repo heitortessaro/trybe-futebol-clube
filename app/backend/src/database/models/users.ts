@@ -6,6 +6,7 @@ class Users extends Model {
   username!: string;
   role!: string;
   email!: string;
+  password!: string;
 }
 
 Users.init({
@@ -37,3 +38,5 @@ Users.init({
   underscored: true,
   timestamps: false,
 });
+
+export default Users;
