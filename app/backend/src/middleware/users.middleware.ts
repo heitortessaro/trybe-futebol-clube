@@ -28,8 +28,17 @@ export default class UsersMiddleware {
       email: Joi.string().email().required(),
       password: Joi.string().min(1).required(),
     });
-    const { error } = await schema.validateAsync(loginInfo);
-    if (error) throw error;
+    // .messages({ 'any.required': 'All fields must be filled' });
+    // .messages({ ''string.required': 'All fields must be filled'' });
+    // console.log(loginInfo);
+    // const { error } = await schema.validateAsync(loginInfo);
+    try {
+      await schema.validateAsync(loginInfo);
+    } catch (_error) {
+      throw new NewError('All fields must be filled', StatusCodes.BAD_REQUEST);
+    }
+    // if (error) throw error;
+    // if (error) throw new NewError('All fields must be filled', StatusCodes.BAD_REQUEST);
     next();
   };
 
@@ -41,7 +50,7 @@ export default class UsersMiddleware {
     const { loginInfo } = req.body;
     const user = await this.userService.findOneByEmail(loginInfo.email);
     if (!user) throw new NewError('Incorrect email or password', StatusCodes.UNAUTHORIZED);
-    if (HashPassword.validatePassword(loginInfo.password, user.password)) {
+    if (!HashPassword.validatePassword(loginInfo.password, user.password)) {
       throw new NewError('Incorrect email or password', StatusCodes.UNAUTHORIZED);
     }
     const { id, username, role, email } = user;
