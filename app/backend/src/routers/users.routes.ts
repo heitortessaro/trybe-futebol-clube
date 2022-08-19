@@ -10,6 +10,12 @@ const usersService = new UsersService();
 const usersMiddleware = new UsersMiddleware(usersService);
 const userController = new UsersController(usersService);
 
+router.get(
+  '/login/validate',
+  usersMiddleware.validateAuthorizationToken,
+  userController.validateUser,
+);
+
 router.post(
   '/login',
   usersMiddleware.extractUserLoginInfo,

@@ -10,12 +10,14 @@ export default class UsersController {
   constructor(private userService: IUserService) {}
 
   login = async (req: Request, res: Response): Promise<void> => {
-    // const loginInfo:ILogin = req.body;
-    // this.userValidation.dataExists(loginInfo);
-    // const user = this.userValidation.dataIsValid(loginInfo);
     const { userInfo } = req.body;
-    // const { password, ...payload } = user;
     const token: string = JwtService.signToken(userInfo);
     res.status(StatusCodes.OK).json({ token });
+  };
+
+  validateUser = (req: Request, res: Response): void => {
+    const { userInfo } = req.body;
+    const { role } = userInfo;
+    res.status(StatusCodes.OK).json({ role });
   };
 }
