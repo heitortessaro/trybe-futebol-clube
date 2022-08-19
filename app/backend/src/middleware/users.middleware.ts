@@ -1,9 +1,11 @@
 import { Request, Response, NextFunction } from 'express';
 import { StatusCodes } from 'http-status-codes';
 import Joi = require('joi');
+import IRequestAuthorization from '../interfaces/IRequestAuthorization';
 import HashPassword from '../services/hashPassword.service';
 import NewError from '../helpers/NewError';
 import { IUserService } from '../services/users.service';
+import JwtService from '../services/jwt.service';
 
 export default class UsersMiddleware {
   constructor(private userService: IUserService) {}
@@ -28,17 +30,11 @@ export default class UsersMiddleware {
       email: Joi.string().email().required(),
       password: Joi.string().min(1).required(),
     });
-    // .messages({ 'any.required': 'All fields must be filled' });
-    // .messages({ ''string.required': 'All fields must be filled'' });
-    // console.log(loginInfo);
-    // const { error } = await schema.validateAsync(loginInfo);
     try {
       await schema.validateAsync(loginInfo);
     } catch (_error) {
       throw new NewError('All fields must be filled', StatusCodes.BAD_REQUEST);
     }
-    // if (error) throw error;
-    // if (error) throw new NewError('All fields must be filled', StatusCodes.BAD_REQUEST);
     next();
   };
 
@@ -47,13 +43,26 @@ export default class UsersMiddleware {
     _res:Response,
     next:NextFunction,
   ) => {
+    const invalidDataMessage = 'Incorrect email or password';
     const { loginInfo } = req.body;
     const user = await this.userService.findOneByEmail(loginInfo.email);
-    if (!user) throw new NewError('Incorrect email or password', StatusCodes.UNAUTHORIZED);
+    if (!user) throw new NewError(invalidDataMessage, StatusCodes.UNAUTHORIZED);
     if (!HashPassword.validatePassword(loginInfo.password, user.password)) {
-      throw new NewError('Incorrect email or password', StatusCodes.UNAUTHORIZED);
+      throw new NewError(invalidDataMessage, StatusCodes.UNAUTHORIZED);
     }
     const { id, username, role, email } = user;
+    req.body.userInfo = { id, username, role, email };
+    next();
+  };
+
+  validateAuthorizationToken = async (
+    req: IRequestAuthorization,
+    _res:Response,
+    next:NextFunction,
+  ) => {
+    const token = req.headers.authorization;
+    const decoded = JwtService.validateToken(token as string);
+    const { id, username, role, email } = decoded;
     req.body.userInfo = { id, username, role, email };
     next();
   };
