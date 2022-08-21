@@ -13,7 +13,7 @@ export default class TeamsController {
 
   getTeamWithId = async (req: Request, res: Response): Promise<void> => {
     const { id } = req.params;
-    const team = await this.teamsService.findById(id);
+    const team = await this.teamsService.findById(parseInt(id, 10));
     res.status(StatusCodes.OK).json(team);
   };
 }
