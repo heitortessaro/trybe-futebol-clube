@@ -25,11 +25,6 @@ const userMock: IUser = {
 }
 
 // login cases
-const caseNoPasswordNoEmail = {
-  email: '',
-  password: ''
-}
-
 const caseNoPassword = {
   email: userMock.email,
   password: ''
@@ -107,24 +102,4 @@ describe('Users', () => {
       expect(response.body.message).to.equal('All fields must be filled');
     });
   });
-  // describe('Login/validate', () => {
-  //   beforeEach(() => {
-  //     // sinon.stub(Users. 'findaOne').
-  //     // deve retornar o role do usuario
-  //     // será que devemos mokar a função que valida o token?
-  //   })
-  //   afterEach(() => {
-  //     sinon.restore();
-  //   })
-  //   it('Should return correct user role if the token is valid with status code 200', async () => {
-  //     // sinon.stub(Users. 'findaOne').
-  //     //verifica o role e o code (200)
-  //     // 
-  //   });
-  //   it('Should return erros if the provided token is invalid', async () => {
-  //     // verifica o se o token é valido
-  //     // code 401
-  //     // { "message": "Invalid token" }
-  //   });
-  // });
 });
