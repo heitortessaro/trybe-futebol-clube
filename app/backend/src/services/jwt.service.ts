@@ -19,10 +19,8 @@ export default class JwtService {
   public static validateToken(token:string): JwtPayload {
     try {
       const decoded = verify(token, process.env.JWT_SECRET || 'easypassword');
-      // const { email, id } = decoded;
       return decoded as JwtPayload;
     } catch (erro) {
-      // createError(401, 'Expired or invalid token');
       throw new NewError('Expired or invalid token', StatusCodes.UNAUTHORIZED);
     }
   }
