@@ -31,11 +31,15 @@ describe('Users', () => {
       // sinon.stub(Users. 'findaOne').
       //verifica o role e o code (200)
       // 
-      // sinon.stub(jwt, 'verify').resolves(verifyMock as JwtPayload);
+      sinon.stub(jwt, 'verify').returns(verifyMock as JwtPayload);
+      // resolves é para promisses
+      // returns é para síncrona
+      // já o callfake entrega uma função a ser executada no lugar
+      
       // example of stubing the jwt.verify: https://itecnote.com/tecnote/javascript-writing-unit-tests-for-method-that-uses-jwt-token-in-javascript/
-      sinon.stub(jwt, 'verify').callsFake(() => {
-        return Promise.resolve(verifyMock as JwtPayload);
-      });
+      // sinon.stub(jwt, 'verify').callsFake(() => {
+      //   return Promise.resolve(verifyMock as JwtPayload);
+      // });
       const response = await chai.request(app).get('/login/validate').set('authorization', 'token')
       expect(response.status).to.equal(StatusCodes.OK);
       expect(response.body).to.have.property('role');

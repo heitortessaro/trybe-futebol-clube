@@ -61,7 +61,7 @@ export default class UsersMiddleware {
     next:NextFunction,
   ) => {
     const token = req.headers.authorization;
-    const decoded = await JwtService.validateToken(token as string);
+    const decoded = JwtService.validateToken(token as string);
     const { id, username, role, email } = decoded;
     req.body.userInfo = { id, username, role, email };
     next();
