@@ -1,13 +1,15 @@
 import { Router } from 'express';
+import MatchesController from '../controllers/matches.controllers';
+import MatchesService from '../services/matches.service';
 
 const router = Router();
 
-// const teamsService = new TeamsService();
-// const teamsController = new TeamsController(teamsService);
+const matchesService = new MatchesService();
+const matchesController = new MatchesController(matchesService);
 
 router.get(
   '/matches',
-  // teamsController.listTeams,
+  matchesController.listMatches,
 );
 
 export default router;
