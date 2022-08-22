@@ -43,21 +43,25 @@ Matches.init({
   timestamps: false,
 });
 
-// Matches.belongsTo(Teams, { foreignKey: 'homeTeam' });
-// Matches.belongsTo(Teams, { foreignKey: 'awayTeam' });
+Matches.belongsTo(Teams, { foreignKey: 'homeTeam', as: 'homeTeam' });
+Matches.belongsTo(Teams, { foreignKey: 'awayTeam', as: 'awayTeam' });
 
-// Teams.hasMany(Matches, { foreignKey: 'homeTeam' });
-// Teams.hasMany(Matches, { foreignKey: 'awayTeam' });
+Teams.hasMany(Matches, { foreignKey: 'homeTeam', as: 'matchesHomeTeam' });
+Teams.hasMany(Matches, { foreignKey: 'awayTeam', as: 'matchesAwayTeam' });
 
-Teams.hasMany(Matches, {
-  sourceKey: 'id',
-  foreignKey: 'homeTeam',
-  as: 'homeTeam',
-});
-Teams.hasMany(Matches, {
-  sourceKey: 'id',
-  foreignKey: 'awayTeam',
-  as: 'awayTeam',
-});
+// a definição pelos dois modos garante que possam ser buscados pelos anbos os "Lados"
+// já o alyias serve para o JS identificar o campo.
+
+// Teams.hasMany(Matches, {
+//   sourceKey: 'id',
+//   foreignKey: 'homeTeam',
+//   as: 'homeTeam',
+// });
+
+// Teams.hasMany(Matches, {
+//   sourceKey: 'id',
+//   foreignKey: 'awayTeam',
+//   as: 'awayTeam',
+// });
 
 export default Matches;
