@@ -4,6 +4,7 @@ import 'express-async-errors';
 import errorMiddleware from './middleware/error.middleware';
 import UsersRoutes from './routers/users.routes';
 import TeamsRoutes from './routers/teams.routes';
+import MatchesRoutes from './routers/matches.routes';
 
 class App {
   public app: express.Express;
@@ -30,6 +31,7 @@ class App {
     // this.app.use(cors());
     this.app.use(UsersRoutes);
     this.app.use(TeamsRoutes);
+    this.app.use(MatchesRoutes);
     this.app.use(errorMiddleware);
   }
 
