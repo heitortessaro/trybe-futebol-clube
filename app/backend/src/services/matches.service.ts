@@ -3,12 +3,12 @@ import Teams from '../database/models/teams';
 import Matches from '../database/models/matches';
 
 export interface IMatchesService {
-  list(): Promise<Matches[]>,
-  // findOneByEmail(email: string): Promise<Users | null>,
+  listMatches(): Promise<Matches[]>,
+  listMatchesInProgress(): Promise<Matches[]>,
 }
 
 export default class MatchesService implements IMatchesService {
-  list = async (): Promise<Matches[]> => {
+  listMatches = async (): Promise<Matches[]> => {
     const matches = await Matches.findAll({
       include: [
         {
@@ -22,6 +22,17 @@ export default class MatchesService implements IMatchesService {
           as: 'teamAway',
           attributes: { include: ['teamName'] },
         },
+      ],
+    });
+    return matches;
+  };
+
+  listMatchesInProgress = async (): Promise<Matches[]> => {
+    const matches = await Matches.findAll({
+      where: { title: { inProgress: true } },
+      include: [
+        { model: Teams, as: 'teamHome', attributes: { include: ['teamName'] } },
+        { model: Teams, as: 'teamAway', attributes: { include: ['teamName'] } },
       ],
     });
     return matches;
