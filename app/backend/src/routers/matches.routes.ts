@@ -28,4 +28,10 @@ router.get(
   matchesController.listMatches,
 );
 
+router.patch(
+  '/matches/:id/finish',
+  matchesMiddleware.checkMatchExist,
+  matchesController.finishMatch,
+);
+
 export default router;

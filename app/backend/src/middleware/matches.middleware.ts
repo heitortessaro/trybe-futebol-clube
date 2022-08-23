@@ -31,6 +31,7 @@ export default class MatchesMiddlewares {
     const { id } = req.params;
     const match = await this.matchesService.findMatchById(parseInt(id, 10));
     if (!match) throw new NewError('There is no match with such id!', StatusCodes.NOT_FOUND);
+    req.body.id = parseInt(id, 10);
     next();
   };
 }

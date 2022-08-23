@@ -11,6 +11,7 @@ export interface IMatchesService {
   listMatchesInProgress(inProgress:boolean): Promise<Matches[]>,
   addMatchInProgress(matchInfo:IMatchInProgress): Promise<IMatch>,
   findMatchById(matchId:number): Promise<Matches | null>,
+  finishGame(matchId:number): Promise<Matches>,
 }
 
 export default class MatchesService implements IMatchesService {
@@ -65,5 +66,14 @@ export default class MatchesService implements IMatchesService {
       } as IMatch;
     }
     throw new NewError('Error adding data to the DB', StatusCodes.INTERNAL_SERVER_ERROR);
+  };
+
+  finishGame = async (matchId:number): Promise<Matches> => {
+    const match = await Matches.findByPk(matchId);
+    const inProgress = false;
+    match?.set({ inProgress });
+    await match?.save();
+    await match?.reload();
+    return match as Matches;
   };
 }
