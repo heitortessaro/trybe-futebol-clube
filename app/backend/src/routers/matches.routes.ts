@@ -7,9 +7,14 @@ const router = Router();
 const matchesService = new MatchesService();
 const matchesController = new MatchesController(matchesService);
 
-router.get(
-  '/matches/:inProgress',
-  matchesController.listMatchesInProgress,
+// router.get(
+//   '/matches?inProgress',
+//   matchesController.listMatchesInProgress,
+// );
+
+router.post(
+  '/matches',
+  matchesController.addMatchInProgress,
 );
 
 router.get(
