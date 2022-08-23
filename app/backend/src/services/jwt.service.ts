@@ -21,7 +21,7 @@ export default class JwtService {
       const decoded = verify(token, process.env.JWT_SECRET || 'easypassword');
       return decoded as JwtPayload;
     } catch (erro) {
-      throw new NewError('Expired or invalid token', StatusCodes.UNAUTHORIZED);
+      throw new NewError('Token must be a valid token', StatusCodes.UNAUTHORIZED);
     }
   }
 }
