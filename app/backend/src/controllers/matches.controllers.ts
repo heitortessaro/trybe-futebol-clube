@@ -6,17 +6,19 @@ export default class MatchesController {
   constructor(private matchesService:IMatchesService) {}
 
   listMatches = async (req: Request, res: Response): Promise<void> => {
-    const matches = await this.matchesService.listMatches();
-    res.status(StatusCodes.OK).json(matches);
-  };
-
-  listMatchesInProgress = async (req:Request, res:Response): Promise<void> => {
     const { inProgress } = req.query;
-    const matches = await this.matchesService.listMatchesInProgress(inProgress === 'true');
-    res.status(StatusCodes.OK).json(matches);
+    if (inProgress === undefined) {
+      const matches = await this.matchesService.listMatches();
+      res.status(StatusCodes.OK).json(matches);
+    } else {
+      const matches = await this.matchesService.listMatchesInProgress(inProgress === 'true');
+      res.status(StatusCodes.OK).json(matches);
+    }
   };
 
-  // listMatchesInProgress = async (req:Request, res: Response): Promise<void> => {
-  //   const {}
-  // }
+  addMatchInProgress = async (req:Request, res:Response): Promise<void> => {
+    const matchInfo = req.body;
+    const match = await this.matchesService.addMatchInProgress(matchInfo);
+    res.status(StatusCodes.CREATED).json(match);
+  };
 }
