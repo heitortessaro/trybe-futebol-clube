@@ -4,7 +4,7 @@ import Matches from '../database/models/matches';
 
 export interface IMatchesService {
   listMatches(): Promise<Matches[]>,
-  listMatchesInProgress(): Promise<Matches[]>,
+  listMatchesInProgress(inProgress:boolean): Promise<Matches[]>,
 }
 
 export default class MatchesService implements IMatchesService {
@@ -27,9 +27,9 @@ export default class MatchesService implements IMatchesService {
     return matches;
   };
 
-  listMatchesInProgress = async (): Promise<Matches[]> => {
+  listMatchesInProgress = async (inProgress:boolean): Promise<Matches[]> => {
     const matches = await Matches.findAll({
-      where: { title: { inProgress: true } },
+      where: { title: { inProgress } },
       include: [
         { model: Teams, as: 'teamHome', attributes: { include: ['teamName'] } },
         { model: Teams, as: 'teamAway', attributes: { include: ['teamName'] } },
