@@ -26,4 +26,11 @@ export default class MatchesMiddlewares {
     }
     next();
   };
+
+  checkMatchExist = async (req: Request, _res:Response, next:NextFunction) => {
+    const { id } = req.params;
+    const match = await this.matchesService.findMatchById(parseInt(id, 10));
+    if (!match) throw new NewError('There is no match with such id!', StatusCodes.NOT_FOUND);
+    next();
+  };
 }

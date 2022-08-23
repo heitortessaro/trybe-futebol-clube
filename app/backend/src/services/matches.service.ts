@@ -10,6 +10,7 @@ export interface IMatchesService {
   listMatches(): Promise<Matches[]>,
   listMatchesInProgress(inProgress:boolean): Promise<Matches[]>,
   addMatchInProgress(matchInfo:IMatchInProgress): Promise<IMatch>,
+  findMatchById(matchId:number): Promise<Matches | null>,
 }
 
 export default class MatchesService implements IMatchesService {
@@ -30,6 +31,11 @@ export default class MatchesService implements IMatchesService {
       ],
     });
     return matches;
+  };
+
+  findMatchById = async (matchId:number): Promise<Matches | null> => {
+    const match = await Matches.findByPk(matchId);
+    return match;
   };
 
   listMatchesInProgress = async (inProgress:boolean): Promise<Matches[]> => {
