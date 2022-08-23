@@ -1,5 +1,6 @@
 // import Teams from 'src/database/models/teams';
 import { StatusCodes } from 'http-status-codes';
+import IMatchScore from '../interfaces/IMatchScore';
 import IMatchInProgress from '../interfaces/IMatchInProgress';
 import NewError from '../helpers/NewError';
 import Teams from '../database/models/teams';
@@ -12,6 +13,7 @@ export interface IMatchesService {
   addMatchInProgress(matchInfo:IMatchInProgress): Promise<IMatch>,
   findMatchById(matchId:number): Promise<Matches | null>,
   finishGame(matchId:number): Promise<Matches>,
+  updateMatchScore(matchId:number, newScore:IMatchScore): Promise<Matches>,
 }
 
 export default class MatchesService implements IMatchesService {
@@ -72,6 +74,15 @@ export default class MatchesService implements IMatchesService {
     const match = await Matches.findByPk(matchId);
     const inProgress = false;
     match?.set({ inProgress });
+    await match?.save();
+    await match?.reload();
+    return match as Matches;
+  };
+
+  updateMatchScore = async (matchId:number, newScore:IMatchScore): Promise<Matches> => {
+    const { homeTeamGoals, awayTeamGoals } = newScore;
+    const match = await Matches.findByPk(matchId);
+    match?.set({ homeTeamGoals, awayTeamGoals });
     await match?.save();
     await match?.reload();
     return match as Matches;
