@@ -1,4 +1,4 @@
-import Teams from '../database/models/teams';
+import Teams from '../../database/models/teams';
 
 export interface ITeamsService {
   list(): Promise<Teams[]>,

@@ -1,6 +1,6 @@
 import { Request, Response } from 'express';
 import { StatusCodes } from 'http-status-codes';
-import { IMatchesService } from '../services/matches.service';
+import { IMatchesService } from '../services/databaseInteraction/matches.service';
 
 export default class MatchesController {
   constructor(private matchesService:IMatchesService) {}

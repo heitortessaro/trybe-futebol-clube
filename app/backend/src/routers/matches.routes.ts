@@ -1,10 +1,10 @@
 import { Router } from 'express';
 import MatchesMiddlewares from '../middleware/matches.middleware';
 import MatchesController from '../controllers/matches.controllers';
-import MatchesService from '../services/matches.service';
-import { TeamsService } from '../services/teams.service';
+import MatchesService from '../services/databaseInteraction/matches.service';
+import { TeamsService } from '../services/databaseInteraction/teams.service';
 import UsersMiddleware from '../middleware/users.middleware';
-import { UsersService } from '../services/users.service';
+import { UsersService } from '../services/databaseInteraction/users.service';
 
 const router = Router();
 

@@ -1,9 +1,9 @@
 import { Request, Response } from 'express';
 import { StatusCodes } from 'http-status-codes';
-import JwtService from '../services/jwt.service';
+import JwtService from '../services/validation/jwt.service';
 // import Users from '../database/models/users';
 // import ILogin from '../interfaces/ILogin';
-import { IUserService } from '../services/users.service';
+import { IUserService } from '../services/databaseInteraction/users.service';
 // import { IUserValidations } from '../services/userValidation.service';
 
 export default class UsersController {

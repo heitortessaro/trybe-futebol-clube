@@ -2,10 +2,10 @@ import { Request, Response, NextFunction } from 'express';
 import { StatusCodes } from 'http-status-codes';
 import Joi = require('joi');
 import IRequestAuthorization from '../interfaces/IRequestAuthorization';
-import HashPassword from '../services/hashPassword.service';
+import HashPassword from '../services/validation/hashPassword.service';
 import NewError from '../helpers/NewError';
-import { IUserService } from '../services/users.service';
-import JwtService from '../services/jwt.service';
+import { IUserService } from '../services/databaseInteraction/users.service';
+import JwtService from '../services/validation/jwt.service';
 
 export default class UsersMiddleware {
   constructor(private userService: IUserService) {}

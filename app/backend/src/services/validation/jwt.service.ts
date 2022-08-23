@@ -3,9 +3,9 @@ import 'dotenv/config';
 // import { IJwt } from '../interfaces/IJwt';
 import { StatusCodes } from 'http-status-codes';
 // import { IId } from '../interfaces/IId';
-import NewError from '../helpers/NewError';
+import NewError from '../../helpers/NewError';
 // import { IUserWithoutPassword } from '../interfaces/IUserWithoutPassword';
-import { UserWithoutPassword } from '../types/userWithoutPassword';
+import { UserWithoutPassword } from '../../types/userWithoutPassword';
 
 export default class JwtService {
   public static signToken(payload:UserWithoutPassword):string {

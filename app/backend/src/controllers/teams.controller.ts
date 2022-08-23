@@ -1,7 +1,7 @@
 import { Request, Response } from 'express';
 import { StatusCodes } from 'http-status-codes';
 // import Teams from '../database/models/teams';
-import { ITeamsService } from '../services/teams.service';
+import { ITeamsService } from '../services/databaseInteraction/teams.service';
 
 export default class TeamsController {
   constructor(private teamsService:ITeamsService) {}

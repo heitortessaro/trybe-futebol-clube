@@ -2,10 +2,10 @@ import { Request, Response, NextFunction } from 'express';
 import { StatusCodes } from 'http-status-codes';
 import Joi = require('joi');
 import IMatchScore from '../interfaces/IMatchScore';
-import { ITeamsService } from '../services/teams.service';
+import { ITeamsService } from '../services/databaseInteraction/teams.service';
 import NewError from '../helpers/NewError';
 import IMatchInProgress from '../interfaces/IMatchInProgress';
-import { IMatchesService } from '../services/matches.service';
+import { IMatchesService } from '../services/databaseInteraction/matches.service';
 
 export default class MatchesMiddlewares {
   constructor(private matchesService: IMatchesService, private teamsService: ITeamsService) { }

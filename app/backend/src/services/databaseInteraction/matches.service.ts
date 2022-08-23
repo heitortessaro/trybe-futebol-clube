@@ -1,11 +1,11 @@
 // import Teams from 'src/database/models/teams';
 import { StatusCodes } from 'http-status-codes';
-import IMatchScore from '../interfaces/IMatchScore';
-import IMatchInProgress from '../interfaces/IMatchInProgress';
-import NewError from '../helpers/NewError';
-import Teams from '../database/models/teams';
-import Matches from '../database/models/matches';
-import IMatch from '../interfaces/IMatch';
+import IMatchScore from '../../interfaces/IMatchScore';
+import IMatchInProgress from '../../interfaces/IMatchInProgress';
+import NewError from '../../helpers/NewError';
+import Teams from '../../database/models/teams';
+import Matches from '../../database/models/matches';
+import IMatch from '../../interfaces/IMatch';
 
 export interface IMatchesService {
   listMatches(): Promise<Matches[]>,

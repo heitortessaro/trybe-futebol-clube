@@ -1,4 +1,4 @@
-import Users from '../database/models/users';
+import Users from '../../database/models/users';
 
 export interface IUserService {
   list(): Promise<Users[]>,
