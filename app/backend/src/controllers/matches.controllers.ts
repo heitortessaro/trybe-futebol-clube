@@ -27,4 +27,10 @@ export default class MatchesController {
     const match = await this.matchesService.finishGame(id);
     if (match) res.status(StatusCodes.OK).json({ message: 'Finished' });
   };
+
+  updateMatchInProgress = async (req:Request, res:Response): Promise<void> => {
+    const { id, newScore } = req.body;
+    const match = await this.matchesService.updateMatchScore(id, newScore);
+    res.status(StatusCodes.OK).json(match);
+  };
 }
