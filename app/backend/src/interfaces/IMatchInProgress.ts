@@ -1,6 +1,6 @@
 export default interface IMatchInProgress {
-  homeTeam: string;
+  homeTeam: number;
   homeTeamGoals: number;
-  awayTeam: string;
+  awayTeam: number;
   awayTeamGoals: number;
 }
