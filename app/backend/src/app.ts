@@ -1,6 +1,6 @@
 import * as express from 'express';
 import 'express-async-errors';
-// import { cors } from 'cors';
+import * as cors from 'cors';
 import errorMiddleware from './middleware/error.middleware';
 import UsersRoutes from './routers/users.routes';
 import TeamsRoutes from './routers/teams.routes';
@@ -28,7 +28,7 @@ class App {
 
     this.app.use(express.json());
     this.app.use(accessControl);
-    // this.app.use(cors());
+    this.app.use(cors());
     this.app.use(UsersRoutes);
     this.app.use(TeamsRoutes);
     this.app.use(MatchesRoutes);
