@@ -34,4 +34,12 @@ router.patch(
   matchesController.finishMatch,
 );
 
+router.patch(
+  '/matches/:id/',
+  matchesMiddleware.checkMatchExist,
+  matchesMiddleware.checkGameIsInProgress,
+  matchesMiddleware.updateMatchInfoExist,
+  matchesController.updateMatchInProgress,
+);
+
 export default router;
