@@ -1,6 +1,6 @@
-export default interface IMatchInProgress {
+import IMatchScore from './IMatchScore';
+
+export default interface IMatchInProgress extends IMatchScore {
   homeTeam: number;
-  homeTeamGoals: number;
   awayTeam: number;
-  awayTeamGoals: number;
 }
