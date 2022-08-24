@@ -27,6 +27,13 @@ export default class LeaderboardDTService implements ILeaderboardDTS {
     return newLeaderboard;
   };
 
+  private processLoss = (leadeboard: ILeaderboard[], teamName: string):ILeaderboard[] => {
+    const newLeaderboard = leadeboard;
+    const teamIndex = leadeboard.findIndex((team) => team.name === teamName);
+    newLeaderboard[teamIndex].totalLosses += 1;
+    return newLeaderboard;
+  };
+
   private processGoals = (
     leadeboard: ILeaderboard[],
     teamName: string,
@@ -37,13 +44,6 @@ export default class LeaderboardDTService implements ILeaderboardDTS {
     const teamIndex = leadeboard.findIndex((team) => team.name === teamName);
     newLeaderboard[teamIndex].goalsFavor += goalsFavor;
     newLeaderboard[teamIndex].goalsOwn += goalsOwn;
-    return newLeaderboard;
-  };
-
-  private processLoss = (leadeboard: ILeaderboard[], teamName: string):ILeaderboard[] => {
-    const newLeaderboard = leadeboard;
-    const teamIndex = leadeboard.findIndex((team) => team.name === teamName);
-    newLeaderboard[teamIndex].totalLosses += 1;
     return newLeaderboard;
   };
 
@@ -64,7 +64,8 @@ export default class LeaderboardDTService implements ILeaderboardDTS {
       if (match.homeTeamGoals > match.awayTeamGoals) {
         newLeaderboard = this.processVictory(newLeaderboard, match.teamHome.teamName);
         newLeaderboard = this.processLoss(newLeaderboard, match.teamAway.teamName);
-      } else {
+      }
+      if (match.homeTeamGoals < match.awayTeamGoals) {
         newLeaderboard = this.processLoss(newLeaderboard, match.teamHome.teamName);
         newLeaderboard = this.processVictory(newLeaderboard, match.teamAway.teamName);
       }
@@ -124,6 +125,15 @@ export default class LeaderboardDTService implements ILeaderboardDTS {
     return newLeaderboard;
   };
 
+  private sortGoalsBalance = (a:ILeaderboard, b:ILeaderboard):number => {
+    if (b.goalsBalance === a.goalsBalance) {
+      if (b.goalsFavor === a.goalsFavor) return a.goalsOwn - b.goalsOwn;
+      return b.goalsFavor - a.goalsFavor;
+    }
+    if (b.goalsBalance > a.goalsBalance) return 1;
+    return -1;
+  };
+
   // Ordem para desempate
   // 1º Total de Vitórias; 2º Saldo de gols; 3º Gols a favor; 4º Gols sofridos.
   sortClassification = (leaderboard:ILeaderboard[]): ILeaderboard[] => {
@@ -131,11 +141,7 @@ export default class LeaderboardDTService implements ILeaderboardDTS {
     newLeaderboard.sort((a, b) => {
       if (b.totalPoints === a.totalPoints) {
         if (b.totalVictories === a.totalVictories) {
-          if (b.goalsBalance - a.goalsBalance) {
-            if (b.goalsFavor === a.goalsFavor) return a.goalsOwn - b.goalsOwn;
-            return b.goalsFavor - a.goalsFavor;
-          }
-          return b.goalsBalance - a.goalsBalance;
+          return this.sortGoalsBalance(a, b);
         }
         return b.totalVictories - a.totalVictories;
       }
