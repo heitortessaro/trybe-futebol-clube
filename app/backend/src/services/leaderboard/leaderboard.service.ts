@@ -1,23 +1,54 @@
 import { IMatchComplete } from '../../interfaces/IMatchComplete';
 import { ILeaderboard } from '../../interfaces/ILeaderboard';
+import { ITeam } from '../../interfaces/ITeam';
+import { ILeaderboardDTS } from './dataTreatement.service';
 
 export interface ILeaderboardService {
-  returnLeaderBoardHome(matches:IMatchComplete): Promise<ILeaderboard[]>,
-  returnLeaderBoardAway(): Promise<ILeaderboard[]>,
-  returnLeaderBoard(): Promise<ILeaderboard[]>,
+  LeaderboardHome(matches:IMatchComplete[], teams:ITeam[]): ILeaderboard[],
+  LeaderboardAway(): Promise<ILeaderboard[]>,
+  Leaderboard(matches:IMatchComplete[], teams:ITeam[]): ILeaderboard[]
 }
 
 export default class LeaderboardService implements ILeaderboardService {
-  returnLeaderBoardHome = (matches:IMatchComplete): Promise<ILeaderboard[]> => {
-    console.log(matches);
-    throw new Error('Method  implemented.');
+  constructor(private dataTreatmentService: ILeaderboardDTS) {}
+
+  private createLeaderboard = (teams:ITeam[]): ILeaderboard[] => {
+    const leaderboard:ILeaderboard[] = teams.map((team) => (
+      {
+        name: team.teamName,
+        totalPoints: 0,
+        totalGames: 0,
+        totalVictories: 0,
+        totalDraws: 0,
+        totalLosses: 0,
+        goalsFavor: 0,
+        goalsOwn: 0,
+        goalsBalance: 0,
+        efficiency: '0',
+      } as ILeaderboard));
+    return leaderboard;
   };
 
-  returnLeaderBoardAway = (): Promise<ILeaderboard[]> => {
+  LeaderboardHome = (matches:IMatchComplete[], teams:ITeam[]): ILeaderboard[] => {
+    const leaderboard = this.createLeaderboard(teams);
+    // leaderboard = this.dataTreatmentService.checkDrawn(matches, leaderboard);
+    return leaderboard;
+  };
+
+  LeaderboardAway = (): Promise<ILeaderboard[]> => {
     throw new Error('Method not implemented.');
   };
 
-  returnLeaderBoard = (): Promise<ILeaderboard[]> => {
-    throw new Error(' not implemented.');
+  Leaderboard = (matches:IMatchComplete[], teams:ITeam[]): ILeaderboard[] => {
+    let leaderboard = this.createLeaderboard(teams);
+    leaderboard = this.dataTreatmentService.checkDrawn(matches, leaderboard);
+    leaderboard = this.dataTreatmentService.checkVictories(matches, leaderboard);
+    leaderboard = this.dataTreatmentService.countGoals(matches, leaderboard);
+    leaderboard = this.dataTreatmentService.calcGoalBalance(leaderboard);
+    leaderboard = this.dataTreatmentService.calcTotalGames(leaderboard);
+    leaderboard = this.dataTreatmentService.calcTotalPoints(leaderboard);
+    leaderboard = this.dataTreatmentService.calcEfficiency(leaderboard);
+    leaderboard = this.dataTreatmentService.sortClassification(leaderboard);
+    return leaderboard;
   };
 }
