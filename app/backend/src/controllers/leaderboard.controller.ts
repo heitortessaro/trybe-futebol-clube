@@ -25,6 +25,18 @@ export default class LeaderboardController {
     res.status(StatusCodes.OK).json(leaderboard);
   };
 
+  getLeaderboardAway = async (_req: Request, res: Response): Promise<void> => {
+    const inProgress = false;
+    const endedMatches = await this.matchesService.listMatchesInProgress(inProgress);
+    const teams = await this.teamsService.list();
+    const leaderboard = this
+      .leaderboardService.LeaderboardAway(
+        endedMatches as unknown as IMatchComplete[],
+        teams,
+      );
+    res.status(StatusCodes.OK).json(leaderboard);
+  };
+
   getLeaderboard = async (_req: Request, res: Response): Promise<void> => {
     const inProgress = false;
     const endedMatches = await this.matchesService.listMatchesInProgress(inProgress);
