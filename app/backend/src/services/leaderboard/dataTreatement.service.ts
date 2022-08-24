@@ -124,9 +124,23 @@ export default class LeaderboardDTService implements ILeaderboardDTS {
     return newLeaderboard;
   };
 
+  // Ordem para desempate
+  // 1º Total de Vitórias; 2º Saldo de gols; 3º Gols a favor; 4º Gols sofridos.
   sortClassification = (leaderboard:ILeaderboard[]): ILeaderboard[] => {
     const newLeaderboard = leaderboard;
-    newLeaderboard.sort((a, b) => b.totalPoints - a.totalPoints);
+    newLeaderboard.sort((a, b) => {
+      if (b.totalPoints === a.totalPoints) {
+        if (b.totalVictories === a.totalVictories) {
+          if (b.goalsBalance - a.goalsBalance) {
+            if (b.goalsFavor === a.goalsFavor) return a.goalsOwn - b.goalsOwn;
+            return b.goalsFavor - a.goalsFavor;
+          }
+          return b.goalsBalance - a.goalsBalance;
+        }
+        return b.totalVictories - a.totalVictories;
+      }
+      return b.totalPoints - a.totalPoints;
+    });
     return newLeaderboard;
   };
 }
