@@ -5,7 +5,7 @@ import { ILeaderboardDTS } from './dataTreatement.service';
 
 export interface ILeaderboardService {
   LeaderboardHome(matches:IMatchComplete[], teams:ITeam[]): ILeaderboard[],
-  LeaderboardAway(): Promise<ILeaderboard[]>,
+  LeaderboardAway(matches:IMatchComplete[], teams:ITeam[]): ILeaderboard[],
   Leaderboard(matches:IMatchComplete[], teams:ITeam[]): ILeaderboard[]
 }
 
@@ -29,26 +29,43 @@ export default class LeaderboardService implements ILeaderboardService {
     return leaderboard;
   };
 
+  private runSecundaryOperations = (
+    matches:IMatchComplete[],
+    leadeboard:ILeaderboard[],
+  ):ILeaderboard[] => {
+    let newLeaderboard = leadeboard;
+    newLeaderboard = this.dataTreatmentService.calcGoalBalance(newLeaderboard);
+    newLeaderboard = this.dataTreatmentService.calcTotalGames(newLeaderboard);
+    newLeaderboard = this.dataTreatmentService.calcTotalPoints(newLeaderboard);
+    newLeaderboard = this.dataTreatmentService.calcEfficiency(newLeaderboard);
+    newLeaderboard = this.dataTreatmentService.sortClassification(newLeaderboard);
+    return newLeaderboard;
+  };
+
   LeaderboardHome = (matches:IMatchComplete[], teams:ITeam[]): ILeaderboard[] => {
-    const leaderboard = this.createLeaderboard(teams);
-    // leaderboard = this.dataTreatmentService.checkDrawn(matches, leaderboard);
+    let leaderboard = this.createLeaderboard(teams);
+    leaderboard = this.dataTreatmentService.checkDrawn(matches, leaderboard, false, true);
+    leaderboard = this.dataTreatmentService.checkVictories(matches, leaderboard, false, true);
+    leaderboard = this.dataTreatmentService.countGoals(matches, leaderboard, false, true);
+    leaderboard = this.runSecundaryOperations(matches, leaderboard);
     return leaderboard;
   };
 
-  LeaderboardAway = (): Promise<ILeaderboard[]> => {
-    throw new Error('Method not implemented.');
+  LeaderboardAway = (matches:IMatchComplete[], teams:ITeam[]): ILeaderboard[] => {
+    let leaderboard = this.createLeaderboard(teams);
+    leaderboard = this.dataTreatmentService.checkDrawn(matches, leaderboard, true, false);
+    leaderboard = this.dataTreatmentService.checkVictories(matches, leaderboard, true, false);
+    leaderboard = this.dataTreatmentService.countGoals(matches, leaderboard, true, false);
+    leaderboard = this.runSecundaryOperations(matches, leaderboard);
+    return leaderboard;
   };
 
   Leaderboard = (matches:IMatchComplete[], teams:ITeam[]): ILeaderboard[] => {
     let leaderboard = this.createLeaderboard(teams);
-    leaderboard = this.dataTreatmentService.checkDrawn(matches, leaderboard);
-    leaderboard = this.dataTreatmentService.checkVictories(matches, leaderboard);
-    leaderboard = this.dataTreatmentService.countGoals(matches, leaderboard);
-    leaderboard = this.dataTreatmentService.calcGoalBalance(leaderboard);
-    leaderboard = this.dataTreatmentService.calcTotalGames(leaderboard);
-    leaderboard = this.dataTreatmentService.calcTotalPoints(leaderboard);
-    leaderboard = this.dataTreatmentService.calcEfficiency(leaderboard);
-    leaderboard = this.dataTreatmentService.sortClassification(leaderboard);
+    leaderboard = this.dataTreatmentService.checkDrawn(matches, leaderboard, true, true);
+    leaderboard = this.dataTreatmentService.checkVictories(matches, leaderboard, true, true);
+    leaderboard = this.dataTreatmentService.countGoals(matches, leaderboard, true, true);
+    leaderboard = this.runSecundaryOperations(matches, leaderboard);
     return leaderboard;
   };
 }
