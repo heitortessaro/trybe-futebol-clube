@@ -20,6 +20,11 @@ router.get(
 );
 
 router.get(
+  '/leaderboard/away',
+  leaderboardController.getLeaderboardAway,
+);
+
+router.get(
   '/leaderboard',
   leaderboardController.getLeaderboard,
 );
