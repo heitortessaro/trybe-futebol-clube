@@ -6,6 +6,7 @@ import { ITeamsService } from '../services/databaseInteraction/teams.service';
 import NewError from '../helpers/NewError';
 import IMatchInProgress from '../interfaces/IMatchInProgress';
 import { IMatchesService } from '../services/databaseInteraction/matches.service';
+import Teams from '../database/models/teams';
 
 export default class MatchesMiddlewares {
   constructor(private matchesService: IMatchesService, private teamsService: ITeamsService) { }
@@ -21,9 +22,11 @@ export default class MatchesMiddlewares {
 
   checkTeamsExist = async (req: Request, _res: Response, next: NextFunction) => {
     const matchInfo: IMatchInProgress = req.body;
-    const homeTeam = await this.teamsService.findById(matchInfo.homeTeam);
-    const awayTeam = await this.teamsService.findById(matchInfo.awayTeam);
-    if (!homeTeam || !awayTeam) {
+    // const homeTeam = await this.teamsService.findById([matchInfo.homeTeam]);
+    // const awayTeam = await this.teamsService.findById(matchInfo.awayTeam);
+    const teams:Teams[] = await this
+      .teamsService.findTeamsById([matchInfo.homeTeam, matchInfo.awayTeam]);
+    if (teams?.length !== 2) {
       throw new NewError('There is no team with such id!', StatusCodes.NOT_FOUND);
     }
     next();
