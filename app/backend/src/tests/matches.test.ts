@@ -27,7 +27,7 @@ const verifyMock: JwtPayload = {
   email: "admin@admin.com",
 }
 
-describe('Teams', () => {
+describe('Matches', () => {
   describe('Get all matches', () => {
     afterEach(() => {
       sinon.restore();
@@ -51,7 +51,7 @@ describe('Teams', () => {
       expect(response.body).to.deep.equal(onlyInProgress);
     });
   });
-  describe.only('Save an match in progress', () => {
+  describe('Save an match in progress', () => {
     afterEach(() => {
       sinon.restore();
     });

@@ -193,6 +193,6 @@ const homeResults:ILeaderboard[] = [
       "goalsBalance": -4,
       "efficiency": "0.00"
   }
-]
+];
 
 export default homeResults;
