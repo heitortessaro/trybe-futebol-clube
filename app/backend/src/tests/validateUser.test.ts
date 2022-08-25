@@ -52,7 +52,7 @@ describe('Users', () => {
       const response = await chai.request(app).get('/login/validate').set('authorization', 'token')
       expect(response.status).to.equal(StatusCodes.UNAUTHORIZED);
       expect(response.body).to.have.property('message');
-      expect(response.body.message).to.equal('Expired or invalid token');
+      expect(response.body.message).to.equal('Token must be a valid token');
     });
   });
 });

@@ -19,25 +19,6 @@ const { expect } = chai;
 //  Service Response Mock
 const teamsMock: ITeam[] = teams;
 const teamMock: ITeam = teams[1];
-// [
-//   {
-//     "id": 1,
-//     "teamName": "Avaí/Kindermann"
-//   },
-//   {
-//     "id": 2,
-//     "teamName": "Bahia"
-//   },
-//   {
-//     "id": 3,
-//     "teamName": "Botafogo"
-//   },
-// ];
-
-// const teamMock: ITeam = {
-//   "id": 1,
-//   "teamName": "Avaí/Kindermann"
-// }
 
 describe('Teams', () => {
   describe('Get All Teams', () => {
@@ -49,12 +30,6 @@ describe('Teams', () => {
       const response = await chai.request(app).get('/teams');
       expect(response.status).to.equal(StatusCodes.OK);
       expect(response.body).to.deep.equal(teamsMock);
-    });
-    it('Should return an object with the related team information status code 200', async () => {
-      sinon.stub(Teams, 'findOne').resolves(teamMock as Teams)
-      const response = await chai.request(app).get('/teams/1');
-      expect(response.status).to.equal(StatusCodes.OK);
-      expect(response.body).to.deep.equal(teamMock);
     });
   });
   describe('Get Teams by Id', () => {
