@@ -126,7 +126,7 @@ Para a implementação dos testes de integração foram utilizadas:
 
 ### Documentação da API
 
-A documentação da API implementada no back-end foi criada utilizando a ferramenta Postman. Você pode acessar a documentação [aqui](https://documenter.getpostman.com/view/21397186/VUr1GCc1) (em construção). Na página você terá acesso a todas as rodas disponíveis, além da descrição dos parâmetros necessários à cada rota e exemplos de resposta.
+A documentação da API implementada no back-end foi criada utilizando a ferramenta Postman. Você pode acessar a documentação [aqui](https://documenter.getpostman.com/view/21397186/VUr1GCc1). Na página você terá acesso a todas as rodas disponíveis, além da descrição dos parâmetros necessários à cada rota e exemplos de resposta.
 
 ## Estrutura do Projeto
 
