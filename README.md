@@ -16,6 +16,33 @@ Você pode acessar o deploy dessa aplicação utilizando esse [link]() (Ainda n�
 * login: admin@admin.com
 * password: secret_admin
 
+## Estrutura do Projeto
+
+O projeto é composto de 4 entidades importantes:
+
+1️⃣ **Banco de dados:**
+
+- Será um container docker MySQL já configurado no docker-compose através de um serviço definido como `db`.
+- Tem o papel de fornecer dados para o serviço de _backend_.
+- Durante a execução dos testes sempre é acessado pelo `sequelize`.
+- Os arquivos seeders foram fornecidos pela Trybe.
+
+2️⃣ **Back-end:**
+
+- É o ambiente que realizadas as implementações do projeto.
+- A aplicação é inicializada a partir do arquivo `app/backend/src/server.ts`.
+- Executa o `express` e utiliza a porta que vem das variáveis de ambiente.
+
+3️⃣ **Front-end:**
+
+- O front foi fornecido neste projeto pela Trybe. A única modificação foi a configuração do Dockerfile.
+- Por padrão, o front se comunica com serviço de back-end pela url `http://localhost:3001`.
+
+4️⃣ **Docker:**
+
+- O `docker-compose` tem a responsabilidade de unir todos os serviços conteinerizados (backend, frontend e db) e subir o projeto completo com o comando `npm run compose:up` ou `npm run compose:up:dev`.
+- Os `Dockerfiles` nas raízes do `front-end` e `back-end` foram configurados para conseguir inicializar a aplicação.
+
 ## Tecnologias e Arquiteturas Utilizadas
 
 A aplicação tentou aplicar a filosofia **SOLID** em conjunto com a arquitetura **MSC** e **orientação a objetos**. A seguir é apresentada a estrutura da aplicação back-end desenvolvida.
@@ -127,33 +154,6 @@ Para a implementação dos testes de integração foram utilizadas:
 ### Documentação da API
 
 A documentação da API implementada no back-end foi criada utilizando a ferramenta Postman. Você pode acessar a documentação [aqui](https://documenter.getpostman.com/view/21397186/VUr1GCc1). Na página você terá acesso a todas as rodas disponíveis, além da descrição dos parâmetros necessários à cada rota e exemplos de resposta.
-
-## Estrutura do Projeto
-
-O projeto é composto de 4 entidades importantes:
-
-1️⃣ **Banco de dados:**
-
-- Será um container docker MySQL já configurado no docker-compose através de um serviço definido como `db`.
-- Tem o papel de fornecer dados para o serviço de _backend_.
-- Durante a execução dos testes sempre é acessado pelo `sequelize`.
-- Os arquivos seeders foram fornecidos pela Trybe.
-
-2️⃣ **Back-end:**
-
-- É o ambiente que realizadas as implementações do projeto.
-- A aplicação é inicializada a partir do arquivo `app/backend/src/server.ts`.
-- Executa o `express` e utiliza a porta que vem das variáveis de ambiente.
-
-3️⃣ **Front-end:**
-
-- O front foi fornecido neste projeto pela Trybe. A única modificação foi a configuração do Dockerfile.
-- Por padrão, o front se comunica com serviço de back-end pela url `http://localhost:3001`.
-
-4️⃣ **Docker:**
-
-- O `docker-compose` tem a responsabilidade de unir todos os serviços conteinerizados (backend, frontend e db) e subir o projeto completo com o comando `npm run compose:up` ou `npm run compose:up:dev`.
-- Os `Dockerfiles` nas raízes do `front-end` e `back-end` foram configurados para conseguir inicializar a aplicação.
 
 ## Rodando o Projeto na sua máquina
 
