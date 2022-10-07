@@ -11,7 +11,7 @@ O back-end implementa as regras de negócio para popular adequadamente a tabela 
 
 É importante ressaltar que para adicionar uma partida é necessário ter um _token_, portanto a pessoa deverá estar logada para fazer as alterações. 
 
-Você pode acessar o deploy dessa aplicação utilizando esse [link]() (Ainda não está disponível). Para realizar o login e conseguir acessar todos os recursos da aplicação, você pode utilizar os seguintes dados de usuário:
+Você pode acessar o [**deploy dessa aplicação utilizando esse link**](http://trybe-futebol-clube.surge.sh/). Para realizar o login e conseguir acessar todos os recursos da aplicação, você pode utilizar os seguintes dados de usuário:
 
 * login: admin@admin.com
 * password: secret_admin
